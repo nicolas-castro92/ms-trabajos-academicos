@@ -1,9 +1,20 @@
-import {Entity, model, property, hasMany, belongsTo} from '@loopback/repository';
+import {belongsTo, Entity, hasMany, model, property} from '@loopback/repository';
 import {Departamentoxproponente} from './departamentoxproponente.model';
-import {Tipovinculacion} from './tipovinculacion.model';
 import {Proponentexsolicitud} from './proponentexsolicitud.model';
+import {Tipovinculacion} from './tipovinculacion.model';
 
-@model()
+@model({
+  settings: {
+    foreignKeys: {
+      tipovinculacion_fk: {
+        name: 'fk_tipovinculacion',
+        entity: 'Tipovinculacion',
+        entityKey: 'id',
+        foreignKey: 'id_vinculacion'
+      }
+    }
+  }
+})
 export class Proponente extends Entity {
   @property({
     type: 'number',

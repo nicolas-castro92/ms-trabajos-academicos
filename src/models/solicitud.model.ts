@@ -1,13 +1,43 @@
-import {Entity, model, property, hasMany, belongsTo, hasOne} from '@loopback/repository';
-import {Proponentexsolicitud} from './proponentexsolicitud.model';
-import {Tiposolicitud} from './tiposolicitud.model';
-import {Modalidad} from './modalidad.model';
-import {Recordatorio} from './recordatorio.model';
-import {Comitexsolicitud} from './comitexsolicitud.model';
+import {belongsTo, Entity, hasMany, hasOne, model, property} from '@loopback/repository';
 import {Areainvestigacion} from './areainvestigacion.model';
+import {Comitexsolicitud} from './comitexsolicitud.model';
 import {Evaluasolicitud} from './evaluasolicitud.model';
+import {Modalidad} from './modalidad.model';
+import {Proponentexsolicitud} from './proponentexsolicitud.model';
+import {Recordatorio} from './recordatorio.model';
+import {Tiposolicitud} from './tiposolicitud.model';
 
-@model()
+@model({
+  settings: {
+    foreignKeys: {
+      tiposolicitud_fk: {
+        name: 'fk_tiposolicitud',
+        entity: 'Tiposolicitud',
+        entityKey: 'id',
+        foreignKey: 'id_tiposolicitud'
+      },
+      modalidad_fk: {
+        name: 'fk_modalidad',
+        entity: 'Modalidad',
+        entityKey: 'id',
+        foreignKey: 'id_modalidad'
+      },
+      estado_fk: {
+        name: 'fk_estado',
+        entity: 'Estado',
+        entityKey: 'id',
+        foreignKey: 'id_estado'
+      },
+      areainvestigacion_fk: {
+        name: 'fk_areainvestigacion',
+        entity: 'Areainvestigacion',
+        entityKey: 'id',
+        foreignKey: 'id_areainvestigacion'
+      },
+    }
+
+  }
+})
 export class Solicitud extends Entity {
   @property({
     type: 'number',
