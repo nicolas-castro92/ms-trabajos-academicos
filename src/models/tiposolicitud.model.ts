@@ -1,4 +1,6 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, belongsTo, hasMany} from '@loopback/repository';
+import {Formato} from './formato.model';
+import {Solicitud} from './solicitud.model';
 
 @model()
 export class Tiposolicitud extends Entity {
@@ -15,6 +17,11 @@ export class Tiposolicitud extends Entity {
   })
   nombre: string;
 
+  @belongsTo(() => Formato, {name: 'idformato'})
+  id_formato: number;
+
+  @hasMany(() => Solicitud, {keyTo: 'id_tiposolicitud'})
+  solicituds: Solicitud[];
 
   constructor(data?: Partial<Tiposolicitud>) {
     super(data);

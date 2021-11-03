@@ -1,4 +1,7 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, hasMany, hasOne} from '@loopback/repository';
+import {Juradoxareainvestigacion} from './juradoxareainvestigacion.model';
+import {Usuariojurado} from './usuariojurado.model';
+import {Evaluasolicitud} from './evaluasolicitud.model';
 
 @model()
 export class Jurado extends Entity {
@@ -33,6 +36,14 @@ export class Jurado extends Entity {
   })
   entidad: string;
 
+  @hasMany(() => Juradoxareainvestigacion, {keyTo: 'id_jurado'})
+  juradoxareainvestigacions: Juradoxareainvestigacion[];
+
+  @hasOne(() => Usuariojurado, {keyTo: 'id_jurado'})
+  usuariojurado: Usuariojurado;
+
+  @hasMany(() => Evaluasolicitud, {keyTo: 'id_jurado'})
+  evaluasolicituds: Evaluasolicitud[];
 
   constructor(data?: Partial<Jurado>) {
     super(data);

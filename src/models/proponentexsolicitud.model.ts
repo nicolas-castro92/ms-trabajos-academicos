@@ -1,4 +1,6 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, belongsTo} from '@loopback/repository';
+import {Proponente} from './proponente.model';
+import {Solicitud} from './solicitud.model';
 
 @model()
 export class Proponentexsolicitud extends Entity {
@@ -8,19 +10,11 @@ export class Proponentexsolicitud extends Entity {
     generated: true,
   })
   id?: number;
-
-  @property({
-    type: 'number',
-    required: true,
-  })
-  id_solicitud: number;
-
-  @property({
-    type: 'number',
-    required: true,
-  })
+  @belongsTo(() => Proponente, {name: 'idproponente'})
   id_proponente: number;
 
+  @belongsTo(() => Solicitud, {name: 'idsolicitud'})
+  id_solicitud: number;
 
   constructor(data?: Partial<Proponentexsolicitud>) {
     super(data);

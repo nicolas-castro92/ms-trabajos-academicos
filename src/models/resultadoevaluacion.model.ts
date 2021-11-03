@@ -21,6 +21,15 @@ export class Resultadoevaluacion extends Entity {
   })
   formato_diligenciado: string;
 
+  @property({
+    type: 'number',
+  })
+  id_evaluasolicitud?: number;
+
+  @property({
+    type: 'number',
+  })
+  id_estado?: number;
 
   constructor(data?: Partial<Resultadoevaluacion>) {
     super(data);
