@@ -1,7 +1,18 @@
-import {Entity, model, property, hasMany} from '@loopback/repository';
+import {Entity, hasMany, model, property} from '@loopback/repository';
 import {Solicitud} from './solicitud.model';
 
-@model()
+@model({
+  settings: {
+    foreignKeys: {
+      formato_fk: {
+        name: 'fk_formato',
+        entity: 'Formato',
+        entityKey: 'id',
+        foreignKey: 'id_formato'
+      }
+    }
+  }
+})
 export class Tiposolicitud extends Entity {
   @property({
     type: 'number',
