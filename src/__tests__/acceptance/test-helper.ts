@@ -1,4 +1,4 @@
-import {TrabajoAcademicoApp} from '../..';
+import {TrabajoacademicoApp} from '../..';
 import {
   createRestAppClient,
   givenHttpServerConfig,
@@ -14,7 +14,7 @@ export async function setupApplication(): Promise<AppWithClient> {
     // port: +process.env.PORT,
   });
 
-  const app = new TrabajoAcademicoApp({
+  const app = new TrabajoacademicoApp({
     rest: restConfig,
   });
 
@@ -27,6 +27,6 @@ export async function setupApplication(): Promise<AppWithClient> {
 }
 
 export interface AppWithClient {
-  app: TrabajoAcademicoApp;
+  app: TrabajoacademicoApp;
   client: Client;
 }

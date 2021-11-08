@@ -1,9 +1,9 @@
-import {ApplicationConfig, TrabajoAcademicoApp} from './application';
+import {ApplicationConfig, TrabajoacademicoApp} from './application';
 
 export * from './application';
 
 export async function main(options: ApplicationConfig = {}) {
-  const app = new TrabajoAcademicoApp(options);
+  const app = new TrabajoacademicoApp(options);
   await app.boot();
   await app.start();
 

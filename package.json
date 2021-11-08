@@ -1,7 +1,7 @@
 {
-  "name": "microservicio-trabajo-academico",
+  "name": "trabajoacademico",
   "version": "0.0.1",
-  "description": "microservicio para el trabajo academico",
+  "description": "",
   "keywords": [
     "loopback-application",
     "loopback"
@@ -25,8 +25,8 @@
     "test": "lb-mocha --allow-console-logs \"dist/__tests__\"",
     "posttest": "npm run lint",
     "test:dev": "lb-mocha --allow-console-logs dist/__tests__/**/*.js && npm run posttest",
-    "docker:build": "docker build -t microservicio-trabajo-academico .",
-    "docker:run": "docker run -p 3000:3000 -d microservicio-trabajo-academico",
+    "docker:build": "docker build -t trabajoacademico .",
+    "docker:run": "docker run -p 3000:3000 -d trabajoacademico",
     "premigrate": "npm run build",
     "migrate": "node ./dist/migrate",
     "preopenapi-spec": "npm run build",
@@ -49,26 +49,22 @@
     "!*/__tests__"
   ],
   "dependencies": {
-    "@loopback/authentication": "^7.3.4",
-    "@loopback/boot": "^3.4.3",
-    "@loopback/core": "^2.17.0",
-    "@loopback/repository": "^3.7.2",
-    "@loopback/rest": "^10.0.1",
-    "@loopback/rest-explorer": "^3.3.3",
-    "@loopback/service-proxy": "^3.2.3",
-    "crypto-js": "^4.1.1",
+    "@loopback/boot": "^3.4.4",
+    "@loopback/core": "^2.18.0",
+    "@loopback/repository": "^3.7.3",
+    "@loopback/rest": "^10.1.0",
+    "@loopback/rest-explorer": "^3.3.4",
+    "@loopback/service-proxy": "^3.2.4",
     "loopback-connector-mysql": "^5.4.4",
-    "node-fetch": "^2.6.5",
-    "parse-bearer-token": "^1.0.1",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
-    "@loopback/build": "^7.0.1",
-    "source-map-support": "^0.5.20",
-    "@loopback/testlab": "^3.4.3",
+    "@loopback/build": "^7.0.2",
+    "@loopback/eslint-config": "^11.0.2",
+    "@loopback/testlab": "^3.4.4",
     "@types/node": "^10.17.60",
-    "@loopback/eslint-config": "^11.0.1",
     "eslint": "^7.32.0",
-    "typescript": "~4.3.5"
+    "source-map-support": "^0.5.20",
+    "typescript": "~4.4.4"
   }
 }
