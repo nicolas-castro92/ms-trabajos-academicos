@@ -4,27 +4,24 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
-  put,
-  del,
-  requestBody,
-  response,
+  del, get,
+  getModelSchemaRef, param, patch, post, put, requestBody,
+  response
 } from '@loopback/rest';
 import {Usuariojurado} from '../models';
 import {UsuariojuradoRepository} from '../repositories';
+import {JuradoRepository} from '../repositories/jurado.repository';
 
 export class UsuariojuradoController {
   constructor(
     @repository(UsuariojuradoRepository)
-    public usuariojuradoRepository : UsuariojuradoRepository,
-  ) {}
+    public usuariojuradoRepository: UsuariojuradoRepository,
+    @repository(JuradoRepository)
+    public juradoRepository: JuradoRepository
+  ) { }
 
   @post('/usuariojurados')
   @response(200, {
@@ -43,8 +40,8 @@ export class UsuariojuradoController {
       },
     })
     usuariojurado: Omit<Usuariojurado, 'id'>,
-  ): Promise<Usuariojurado> {
-    return this.usuariojuradoRepository.create(usuariojurado);
+  ): Promise<Usuariojurado | void> {
+    return await this.usuariojuradoRepository.create(usuariojurado);
   }
 
   @get('/usuariojurados/count')

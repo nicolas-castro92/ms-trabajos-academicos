@@ -22,9 +22,15 @@ export class Usuariojurado extends Entity {
 
   @property({
     type: 'string',
-    required: true,
+    required: false,
   })
   clave: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  usuario: string;
 
   @property({
     type: 'number',
