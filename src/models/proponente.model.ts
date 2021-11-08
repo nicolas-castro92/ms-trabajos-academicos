@@ -37,7 +37,7 @@ export class Proponente extends Entity {
 
   @property({
     type: 'string',
-    required: true,
+    required: false,
   })
   otros_nombres: string;
 
@@ -49,7 +49,7 @@ export class Proponente extends Entity {
 
   @property({
     type: 'string',
-    required: true,
+    required: false,
   })
   segundo_apellido: string;
 
@@ -61,7 +61,7 @@ export class Proponente extends Entity {
 
   @property({
     type: 'string',
-    required: true,
+    required: false,
   })
   celular: string;
 

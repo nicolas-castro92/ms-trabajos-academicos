@@ -37,25 +37,25 @@ export class Evaluasolicitud extends Entity {
 
   @property({
     type: 'date',
-    required: true,
+    required: false,
   })
   fecha_invitacion: string;
 
   @property({
     type: 'date',
-    required: true,
+    required: false,
   })
   fecha_respuesta: string;
 
   @property({
     type: 'string',
-    required: true,
+    required: false,
   })
   respuesta: string;
 
   @property({
     type: 'string',
-    required: true,
+    required: false,
   })
   observaciones: string;
 

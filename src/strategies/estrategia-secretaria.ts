@@ -34,7 +34,7 @@ export class EstrategiaSecretaria implements AuthenticationStrategy {
       switch (respuesta) {
         case "OK":
           let perfil: UserProfile = Object.assign({
-            administrador: "OK"
+            secretaria: "OK"
           });
           return perfil;
           break;
