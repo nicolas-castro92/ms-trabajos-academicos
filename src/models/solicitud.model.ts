@@ -1,4 +1,8 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, hasMany, hasOne} from '@loopback/repository';
+import {Proponentexsolicitud} from './proponentexsolicitud.model';
+import {Recordatorio} from './recordatorio.model';
+import {Comitexsolicitud} from './comitexsolicitud.model';
+import {Juradoxsolicitud} from './juradoxsolicitud.model';
 
 @model()
 export class Solicitud extends Entity {
@@ -27,6 +31,37 @@ export class Solicitud extends Entity {
   })
   descripcion: string;
 
+  @hasMany(() => Proponentexsolicitud, {keyTo: 'id_proponente'})
+  proponentexsolicituds: Proponentexsolicitud[];
+
+  @property({
+    type: 'number',
+  })
+  id_tiposolicitud?: number;
+
+  @property({
+    type: 'number',
+  })
+  id_modalidad?: number;
+
+  @property({
+    type: 'number',
+  })
+  id_estado?: number;
+
+  @hasOne(() => Recordatorio, {keyTo: 'id_solicitud'})
+  recordatorio: Recordatorio;
+
+  @hasMany(() => Comitexsolicitud, {keyTo: 'id_solicitud'})
+  comitexsolicituds: Comitexsolicitud[];
+
+  @property({
+    type: 'number',
+  })
+  id_areainvestigacion?: number;
+
+  @hasMany(() => Juradoxsolicitud, {keyTo: 'id_solicitud'})
+  juradoxsolicituds: Juradoxsolicitud[];
 
   constructor(data?: Partial<Solicitud>) {
     super(data);

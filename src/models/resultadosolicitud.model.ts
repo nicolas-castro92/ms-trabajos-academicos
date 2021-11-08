@@ -15,6 +15,15 @@ export class Resultadosolicitud extends Entity {
   })
   resultado: string;
 
+  @property({
+    type: 'number',
+  })
+  id_juradoxsolicitud?: number;
+
+  @property({
+    type: 'number',
+  })
+  id_estado?: number;
 
   constructor(data?: Partial<Resultadosolicitud>) {
     super(data);
