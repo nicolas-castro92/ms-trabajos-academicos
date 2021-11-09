@@ -11,6 +11,13 @@ export namespace Configuracion {
   export const informacionProponente = "se ha cargado exitosamente el trabajo ";
   export const fechaProponente = "en la fecha";
 
+  // jurado
+  export const asuntoJurado = "Usted ha sido invitado como evaluador al trabajo "
+  export const informacionJurado = "por favor acceda al siguiente link y responda ACEPTO o RECHAZO";
+  export const urlRespuestaJurado = "http://localhost:3000/juradoxsolicitudes"
+  //export const urlRespuestaJurado = "http://localhost:3000/juradoxsolicitudes?filter={"where":{"id":1}}"
+
+
   // global
   export const saludo = "Hola";
 

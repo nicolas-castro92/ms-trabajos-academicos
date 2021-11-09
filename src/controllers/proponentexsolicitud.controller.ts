@@ -68,7 +68,7 @@ export class ProponentexsolicitudController {
             let datos = new Modelocorreo();
             datos.destino = proponente.correo;
             datos.asunto = Configuracion.asuntoProponente
-            datos.mensaje = `${Configuracion.saludo}<br>
+            datos.mensaje = `${Configuracion.saludo}${proponente.primer_nombre}<br>
                              ${Configuracion.informacionProponente}
                              ${solicitud.nombre_trabajo}
                              ${Configuracion.fechaProponente}

@@ -1,30 +1,35 @@
+import {service} from '@loopback/core';
 import {
   Count,
   CountSchema,
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
-  put,
-  del,
-  requestBody,
-  response,
+  del, get,
+  getModelSchemaRef, param, patch, post, put, requestBody,
+  response
 } from '@loopback/rest';
+import {Configuracion} from '../keys/configuracion';
 import {Juradoxsolicitud} from '../models';
-import {JuradoxsolicitudRepository} from '../repositories';
+import {Modelocorreo} from '../models/modelocorreo.model';
+import {JuradoxsolicitudRepository, SolicitudRepository} from '../repositories';
+import {JuradoRepository} from '../repositories/jurado.repository';
+import {NotificacionesService} from '../services';
 
 export class JuradoxsolicitudController {
   constructor(
     @repository(JuradoxsolicitudRepository)
-    public juradoxsolicitudRepository : JuradoxsolicitudRepository,
-  ) {}
+    public juradoxsolicitudRepository: JuradoxsolicitudRepository,
+    @repository(JuradoRepository)
+    public juradoRepository: JuradoRepository,
+    @service(NotificacionesService)
+    public notiService: NotificacionesService,
+    @repository(SolicitudRepository)
+    public solicitudRepository: SolicitudRepository
+  ) { }
 
   @post('/juradoxsolicitudes')
   @response(200, {
@@ -43,8 +48,37 @@ export class JuradoxsolicitudController {
       },
     })
     juradoxsolicitud: Omit<Juradoxsolicitud, 'id'>,
-  ): Promise<Juradoxsolicitud> {
-    return this.juradoxsolicitudRepository.create(juradoxsolicitud);
+  ): Promise<Juradoxsolicitud | boolean | string> {
+    let peticion = await this.juradoxsolicitudRepository.create(juradoxsolicitud);
+    if (peticion) {
+      let juradoInvitado = await this.juradoRepository.findOne({
+        where: {
+          id: peticion.id_jurado
+        }
+      })
+      if (juradoInvitado) {
+        let solicitud = await this.solicitudRepository.findOne({
+          where: {
+            id: peticion.id_solicitud
+          }
+        })
+        if (solicitud) {
+          let datos = new Modelocorreo();
+          datos.destino = juradoInvitado.correo;
+          datos.asunto = Configuracion.asuntoJurado;
+          datos.mensaje = `${Configuracion.saludo}${juradoInvitado.nombre}<br>
+                           ${Configuracion.informacionJurado}
+                           ${solicitud.nombre_trabajo}<br>
+                           ${Configuracion.urlRespuestaJurado}?filter={%22where%22:{%22id%22:}${solicitud.id}}`
+          //http://localhost:3000/juradoxsolicitudes?filter={%22where%22:{%22id%22:1}}
+          this.notiService.enviarCorreo(datos);
+          return 'OK'
+        }
+        return 'solicitud'
+      }
+      return 'jurado invitado';
+    }
+    return peticion;
   }
 
   @get('/juradoxsolicitudes/count')
