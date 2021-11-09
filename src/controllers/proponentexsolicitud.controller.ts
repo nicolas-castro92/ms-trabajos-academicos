@@ -1,30 +1,35 @@
+import {service} from '@loopback/core';
 import {
   Count,
   CountSchema,
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
-  put,
-  del,
-  requestBody,
-  response,
+  del, get,
+  getModelSchemaRef, param, patch, post, put, requestBody,
+  response
 } from '@loopback/rest';
-import {Proponentexsolicitud} from '../models';
+import {Configuracion} from '../keys/configuracion';
+import {Modelocorreo, Proponentexsolicitud} from '../models';
 import {ProponentexsolicitudRepository} from '../repositories';
+import {ProponenteRepository} from '../repositories/proponente.repository';
+import {SolicitudRepository} from '../repositories/solicitud.repository';
+import {NotificacionesService} from '../services';
 
 export class ProponentexsolicitudController {
   constructor(
     @repository(ProponentexsolicitudRepository)
-    public proponentexsolicitudRepository : ProponentexsolicitudRepository,
-  ) {}
+    public proponentexsolicitudRepository: ProponentexsolicitudRepository,
+    @repository(ProponenteRepository)
+    public proponenteRepository: ProponenteRepository,
+    @service(NotificacionesService)
+    public notiService: NotificacionesService,
+    @repository(SolicitudRepository)
+    public solicitudRepository: SolicitudRepository
+  ) { }
 
   @post('/proponentexsolicitudes')
   @response(200, {
@@ -43,8 +48,41 @@ export class ProponentexsolicitudController {
       },
     })
     proponentexsolicitud: Omit<Proponentexsolicitud, 'id'>,
-  ): Promise<Proponentexsolicitud> {
-    return this.proponentexsolicitudRepository.create(proponentexsolicitud);
+  ): Promise<Proponentexsolicitud | boolean | string> {
+    let creado = await this.proponentexsolicitudRepository.create(proponentexsolicitud);
+    if (creado) {
+      let buscarCreado = await this.proponentexsolicitudRepository.findOne()
+      if (buscarCreado) {
+        let proponente = await this.proponenteRepository.findOne({
+          where: {
+            id: buscarCreado.id_proponente
+          }
+        })
+        if (proponente) {
+          let solicitud = await this.solicitudRepository.findOne({
+            where: {
+              id: buscarCreado.id_solicitud
+            }
+          })
+          if (solicitud) {
+            let datos = new Modelocorreo();
+            datos.destino = proponente.correo;
+            datos.asunto = Configuracion.asuntoProponente
+            datos.mensaje = `${Configuracion.saludo}<br>
+                             ${Configuracion.informacionProponente}
+                             ${solicitud.nombre_trabajo}
+                             ${Configuracion.fechaProponente}
+                             ${solicitud.fecha_radicado}`
+            this.notiService.enviarCorreo(datos);
+            return 'OK'
+          }
+          return 'solicitud'
+        }
+        return 'proponente';
+      }
+      return 'buscar creado';
+    }
+    return creado;
   }
 
   @get('/proponentexsolicitudes/count')

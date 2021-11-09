@@ -40,3 +40,4 @@ export * from './juradoxsolicitud.controller';
 export * from './resultadosolicitud.controller';
 export * from './juradoxareainvestigacion.controller';
 export * from './jurado.controller';
+export * from './correo.controller';

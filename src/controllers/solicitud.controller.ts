@@ -4,18 +4,12 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
-  put,
-  del,
-  requestBody,
-  response,
+  del, get,
+  getModelSchemaRef, param, patch, post, put, requestBody,
+  response
 } from '@loopback/rest';
 import {Solicitud} from '../models';
 import {SolicitudRepository} from '../repositories';
@@ -23,8 +17,8 @@ import {SolicitudRepository} from '../repositories';
 export class SolicitudController {
   constructor(
     @repository(SolicitudRepository)
-    public solicitudRepository : SolicitudRepository,
-  ) {}
+    public solicitudRepository: SolicitudRepository,
+  ) { }
 
   @post('/solicitudes')
   @response(200, {
@@ -43,8 +37,9 @@ export class SolicitudController {
       },
     })
     solicitud: Omit<Solicitud, 'id'>,
-  ): Promise<Solicitud> {
+  ): Promise<Solicitud | void> {
     return this.solicitudRepository.create(solicitud);
+
   }
 
   @get('/solicitudes/count')

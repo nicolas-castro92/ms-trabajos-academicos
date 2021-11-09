@@ -18,3 +18,4 @@ export * from './juradoxareainvestigacion.model';
 export * from './resultadosolicitud.model';
 export * from './jurado.model';
 export * from './juradoxsolicitud.model';
+export * from './modelocorreo.model';

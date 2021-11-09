@@ -45,6 +45,7 @@ export class ProponenteController {
     proponente: Omit<Proponente, 'id'>,
   ): Promise<Proponente> {
     return this.proponenteRepository.create(proponente);
+    
   }
 
   @get('/proponentes/count')
