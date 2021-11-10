@@ -15,9 +15,10 @@ import {
 import {Configuracion} from '../keys/configuracion';
 import {Juradoxsolicitud} from '../models';
 import {Modelocorreo} from '../models/modelocorreo.model';
+import {Modelorespuesta} from '../models/modelorespuesta.model';
 import {JuradoxsolicitudRepository, SolicitudRepository} from '../repositories';
 import {JuradoRepository} from '../repositories/jurado.repository';
-import {NotificacionesService} from '../services';
+import {NotificacionesService, RespuestasService} from '../services';
 
 export class JuradoxsolicitudController {
   constructor(
@@ -27,6 +28,8 @@ export class JuradoxsolicitudController {
     public juradoRepository: JuradoRepository,
     @service(NotificacionesService)
     public notiService: NotificacionesService,
+    @service(RespuestasService)
+    public respService: RespuestasService,
     @repository(SolicitudRepository)
     public solicitudRepository: SolicitudRepository
   ) { }
@@ -69,17 +72,79 @@ export class JuradoxsolicitudController {
           datos.mensaje = `${Configuracion.saludo}${juradoInvitado.nombre}<br>
                            ${Configuracion.informacionJurado}
                            ${solicitud.nombre_trabajo}<br>
-                           ${Configuracion.urlRespuestaJurado}?filter={%22where%22:{%22id%22:}${solicitud.id}}`
-          //http://localhost:3000/juradoxsolicitudes?filter={%22where%22:{%22id%22:1}}
+                           ${Configuracion.codigoJurado}${peticion.id}<br>
+                           ${Configuracion.urlRespuestaJurado}`
           this.notiService.enviarCorreo(datos);
           return 'OK'
         }
-        return 'solicitud'
+        return 'solicitud';
       }
       return 'jurado invitado';
     }
     return peticion;
   }
+
+
+  @post('/solicitud-respuesta')
+  @response(200, {
+    description: 'respuesta de la solicitud',
+    content: {'application/json': {schema: getModelSchemaRef(Modelorespuesta)}},
+  })
+  async actualizarRespuesta(
+    @requestBody({
+      content: {
+        'application/json': {
+          schema: getModelSchemaRef(Modelorespuesta, {
+            title: 'actualizacion de la respuesta'
+          }),
+        },
+      },
+    })
+    respuesta: Modelorespuesta,
+  ): Promise<boolean | string> {
+    let carga = await this.respService.recibirRespuesta(respuesta);
+    if (carga) {
+      if (carga.respuesta == "ACEPTO") {
+        return 'crear usuario';
+      } else if (carga.respuesta == "RECHAZO") {
+        return 'gracias por responder';
+      } else {
+        return 'no ha ingresado una palabra valida';
+      }
+    }
+    return carga != null;
+  }
+
+
+
+
+
+
+
+
+
+  @patch('/juradoxsolicitudes/{id}')
+  @response(204, {
+    description: 'Juradoxsolicitud PATCH success',
+  })
+  async updateRespusta(
+    @param.path.number('id') id: number,
+    @requestBody({
+      content: {
+        'application/json': {
+          schema: getModelSchemaRef(Juradoxsolicitud, {partial: true}),
+        },
+      },
+    })
+    juradoxsolicitud: Juradoxsolicitud,
+  ): Promise<void> {
+    await this.juradoxsolicitudRepository.updateById(id, juradoxsolicitud);
+  }
+
+
+
+
+
 
   @get('/juradoxsolicitudes/count')
   @response(200, {

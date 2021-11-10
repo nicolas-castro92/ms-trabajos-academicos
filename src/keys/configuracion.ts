@@ -14,7 +14,8 @@ export namespace Configuracion {
   // jurado
   export const asuntoJurado = "Usted ha sido invitado como evaluador al trabajo "
   export const informacionJurado = "por favor acceda al siguiente link y responda ACEPTO o RECHAZO";
-  export const urlRespuestaJurado = "http://localhost:3000/juradoxsolicitudes"
+  export const urlRespuestaJurado = "http://localhost:3000//solicitud-respuesta"
+  export const codigoJurado = "este es el codigo que debe ingresar para validar su respuesta: "
   //export const urlRespuestaJurado = "http://localhost:3000/juradoxsolicitudes?filter={"where":{"id":1}}"
 
 
