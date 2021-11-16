@@ -18,6 +18,7 @@ import {Modelocorreo} from '../models/modelocorreo.model';
 import {Modelorespuesta} from '../models/modelorespuesta.model';
 import {JuradoxsolicitudRepository, SolicitudRepository} from '../repositories';
 import {JuradoRepository} from '../repositories/jurado.repository';
+import {UsuariojuradoRepository} from '../repositories/usuariojurado.repository';
 import {NotificacionesService, RespuestasService} from '../services';
 
 export class JuradoxsolicitudController {
@@ -31,7 +32,9 @@ export class JuradoxsolicitudController {
     @service(RespuestasService)
     public respService: RespuestasService,
     @repository(SolicitudRepository)
-    public solicitudRepository: SolicitudRepository
+    public solicitudRepository: SolicitudRepository,
+    @repository(UsuariojuradoRepository)
+    public usuarioJuradoRepository: UsuariojuradoRepository
   ) { }
 
   @post('/juradoxsolicitudes')
@@ -75,7 +78,7 @@ export class JuradoxsolicitudController {
                            ${Configuracion.codigoJurado}${peticion.id}<br>
                            ${Configuracion.urlRespuestaJurado}`
           this.notiService.enviarCorreo(datos);
-          return 'OK'
+          return 'OK';
         }
         return 'solicitud';
       }
@@ -105,7 +108,9 @@ export class JuradoxsolicitudController {
     let carga = await this.respService.recibirRespuesta(respuesta);
     if (carga) {
       if (carga.respuesta == "ACEPTO") {
-        return 'crear usuario';
+        //notificarle a los administradores
+        //crear usuarioJurado
+        return "OK"
       } else if (carga.respuesta == "RECHAZO") {
         return 'gracias por responder';
       } else {

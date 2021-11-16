@@ -1,5 +1,7 @@
 import { /* inject, */ BindingScope, injectable} from '@loopback/core';
 import {repository} from '@loopback/repository';
+import {Configuracion} from '../keys/configuracion';
+import {Modelocorreo} from '../models/modelocorreo.model';
 import {Modelorespuesta} from '../models/modelorespuesta.model';
 import {JuradoxsolicitudRepository} from '../repositories';
 
@@ -27,4 +29,8 @@ export class RespuestasService {
       return null;
     }
   }
+
+  
+
+
 }

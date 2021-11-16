@@ -1,5 +1,7 @@
 import { /* inject, */ BindingScope, injectable} from '@loopback/core';
+import {correoAdmin} from '../interfaces/modelo-correo-admin.interface';
 import {Configuracion} from '../keys/configuracion';
+import {Usuariojurado} from '../models';
 import {Modelocorreo} from '../models/modelocorreo.model';
 const fetch = require('node-fetch');
 
@@ -15,5 +17,17 @@ export class NotificacionesService {
       })
   }
 
+
+  async notificacionAdmin(): Promise<correoAdmin | void> {
+    fetch(Configuracion.urlcorreosAdministrativos)
+      .then((resp: any) => resp.json())
+      .then((datos: any) => {
+        console.log('desde service', datos);
+        return datos;
+      })
+  }
+  async crearUsuario(datos: Usuariojurado){
+
+  }
 
 }

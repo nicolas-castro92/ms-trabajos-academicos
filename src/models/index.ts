@@ -20,3 +20,4 @@ export * from './jurado.model';
 export * from './juradoxsolicitud.model';
 export * from './modelocorreo.model';
 export * from './modelorespuesta.model';
+export * from './modelo-respuesta-correos.model';

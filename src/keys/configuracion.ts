@@ -2,9 +2,16 @@ export namespace Configuracion {
 
   //url
   export const urlCorreo = "http://localhost:5000/correo";
+  export const urlRespuestaJurado = "http://localhost:3000/solicitud-respuesta"
+  export const urlcorreosAdministrativos = "http://localhost:3007/usuarios"
 
   // hash
   export const hashNotificacion = "123";
+
+  // administradores
+  export const asuntoAdmin = "El jurado "
+  export const infoAdmin = "ha respondido "
+  export const informacionAdmin = "a la solicitud sobre "
 
   // proponente
   export const asuntoProponente = "Bienvenido a la plataforma trabajos academicos";
@@ -14,7 +21,6 @@ export namespace Configuracion {
   // jurado
   export const asuntoJurado = "Usted ha sido invitado como evaluador al trabajo "
   export const informacionJurado = "por favor acceda al siguiente link y responda ACEPTO o RECHAZO";
-  export const urlRespuestaJurado = "http://localhost:3000//solicitud-respuesta"
   export const codigoJurado = "este es el codigo que debe ingresar para validar su respuesta: "
   //export const urlRespuestaJurado = "http://localhost:3000/juradoxsolicitudes?filter={"where":{"id":1}}"
 
