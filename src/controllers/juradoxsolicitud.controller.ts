@@ -19,7 +19,7 @@ import {Modelorespuesta} from '../models/modelorespuesta.model';
 import {JuradoxsolicitudRepository, SolicitudRepository} from '../repositories';
 import {JuradoRepository} from '../repositories/jurado.repository';
 import {UsuariojuradoRepository} from '../repositories/usuariojurado.repository';
-import {NotificacionesService, RespuestasService} from '../services';
+import {NotificacionesService, RespuestasService, UserPassService} from '../services';
 
 export class JuradoxsolicitudController {
   constructor(
@@ -31,10 +31,13 @@ export class JuradoxsolicitudController {
     public notiService: NotificacionesService,
     @service(RespuestasService)
     public respService: RespuestasService,
+    @service(UserPassService)
+    public userPassService: UserPassService,
     @repository(SolicitudRepository)
     public solicitudRepository: SolicitudRepository,
     @repository(UsuariojuradoRepository)
     public usuarioJuradoRepository: UsuariojuradoRepository
+
   ) { }
 
   @post('/juradoxsolicitudes')
@@ -104,12 +107,58 @@ export class JuradoxsolicitudController {
       },
     })
     respuesta: Modelorespuesta,
-  ): Promise<boolean | string> {
+  ): Promise<boolean | string | object> {
     let carga = await this.respService.recibirRespuesta(respuesta);
     if (carga) {
       if (carga.respuesta == "ACEPTO") {
         //notificarle a los administradores
         //crear usuarioJurado
+
+        let buscarJurado = await this.juradoRepository.findOne({
+          where: {
+            id: carga.id_jurado
+          }
+        })
+        console.log('carga', carga);
+        if (buscarJurado) {
+          if (buscarJurado.clave) {
+            // notificar que ya tiene el material disponible
+            let datos = new Modelocorreo();
+            datos.destino = buscarJurado.correo;
+            datos.asunto = Configuracion.asuntoUsuarioJurado;
+            datos.mensaje = `${Configuracion.saludo}
+                       ${buscarJurado.nombre}<br>
+                       ${Configuracion.mensajeUsuarioJuradoOld}`
+            this.notiService.enviarCorreo(datos);
+            return {
+              ok: false,
+              buscarJurado
+            };
+          }
+          else {
+            // crear la clave
+            let clave = this.userPassService.crearClaveAleatoria();
+            let cifrar = this.userPassService.cifrarTexto(clave);
+            console.log('antes', buscarJurado);
+            buscarJurado.clave = cifrar;
+            await this.juradoRepository.updateById(buscarJurado.id, buscarJurado);
+            let datos = new Modelocorreo();
+            datos.destino = buscarJurado.correo;
+            datos.asunto = Configuracion.asuntoUsuarioJurado;
+            datos.mensaje = `${Configuracion.saludo}
+                       ${buscarJurado.nombre} <br>
+              ${Configuracion.mensajeUsuarioJurado}
+                       ${Configuracion.mensajeUsuarioJuradoCreadoClave}
+                       ${clave} `
+            this.notiService.enviarCorreo(datos);
+            console.log('despues', buscarJurado);
+            //console.log('toca crear contraseña');
+            //console.log('la clave', buscarJurado.clave);
+            //console.log(clave);
+            //console.log(cifrar);
+          }
+        }
+
         return "OK"
       } else if (carga.respuesta == "RECHAZO") {
         return 'gracias por responder';

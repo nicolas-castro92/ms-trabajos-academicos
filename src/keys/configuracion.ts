@@ -22,6 +22,10 @@ export namespace Configuracion {
   export const asuntoJurado = "Usted ha sido invitado como evaluador al trabajo "
   export const informacionJurado = "por favor acceda al siguiente link y responda ACEPTO o RECHAZO";
   export const codigoJurado = "este es el codigo que debe ingresar para validar su respuesta: "
+  export const asuntoUsuarioJurado = "Bienvenido a la plataforma trabajos academicos"
+  export const mensajeUsuarioJurado = "Bienvenido! su registro en la plataforma ha sido exitoso"
+  export const mensajeUsuarioJuradoOld = "Usted ha aceptado la invitacion, el material estara disponible en su perfil de usuario, si ha olvidado su contraseña puede recuperarla con el correo"
+  export const mensajeUsuarioJuradoCreadoClave = "su clave es: "
   //export const urlRespuestaJurado = "http://localhost:3000/juradoxsolicitudes?filter={"where":{"id":1}}"
 
 

@@ -1,7 +1,7 @@
-import {Entity, model, property, hasMany, hasOne} from '@loopback/repository';
+import {Entity, hasMany, hasOne, model, property} from '@loopback/repository';
 import {Juradoxareainvestigacion} from './juradoxareainvestigacion.model';
-import {Usuariojurado} from './usuariojurado.model';
 import {Juradoxsolicitud} from './juradoxsolicitud.model';
+import {Usuariojurado} from './usuariojurado.model';
 
 @model()
 export class Jurado extends Entity {
@@ -34,6 +34,12 @@ export class Jurado extends Entity {
     required: true,
   })
   entidad: string;
+
+  @property({
+    type: 'string',
+    hidden: true
+  })
+  clave?: string;
 
   @hasMany(() => Juradoxareainvestigacion, {keyTo: 'id_jurado'})
   juradoxareainvestigacions: Juradoxareainvestigacion[];
