@@ -20,8 +20,9 @@ export class Jurado extends Entity {
 
   @property({
     type: 'string',
+    required: true
   })
-  celular?: string;
+  celular: string;
 
   @property({
     type: 'string',

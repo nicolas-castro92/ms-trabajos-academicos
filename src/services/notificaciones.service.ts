@@ -1,8 +1,8 @@
 import { /* inject, */ BindingScope, injectable} from '@loopback/core';
-import {correoAdmin} from '../interfaces/modelo-correo-admin.interface';
+import {Data} from '../interfaces/secre.interface';
 import {Configuracion} from '../keys/configuracion';
-import {Usuariojurado} from '../models';
 import {Modelocorreo} from '../models/modelocorreo.model';
+import { NotificacionSms } from '../models/notificacion-sms.model';
 const fetch = require('node-fetch');
 
 @injectable({scope: BindingScope.TRANSIENT})
@@ -18,16 +18,33 @@ export class NotificacionesService {
   }
 
 
-  async notificacionAdmin(): Promise<correoAdmin | void> {
+  /* async notificacionAdmin(): Promise<correoAdmin | void> {
     fetch(Configuracion.urlcorreosAdministrativos)
-      .then((resp: any) => resp.json())
-      .then((datos: any) => {
+      .then(async (resp: any) => resp.json())
+      .then(async (datos: any) => {
         console.log('desde service', datos);
+        return await datos;
+      })
+  } */
+
+  async notificarAdmin(): Promise<Data[]> {
+    let urlCorreo = `${Configuracion.urlcorreosAdministrativos}`
+    const respuesta = fetch(urlCorreo)
+      .then(async (resp: any) => resp.json())
+      .then(async (datos: Data[]) => {
+        //console.log('que responde', datos);
         return datos;
       })
+    console.log('respuesta del fetch', respuesta);
+    return respuesta;
   }
-  async crearUsuario(datos: Usuariojurado){
 
+  NotificacionSms(datos: NotificacionSms) {
+    let urlSms = `${Configuracion.urlSms}?${Configuracion.hashArg}=${Configuracion.hashNotificacion}&${Configuracion.destinoArg}=${datos.destino}&${Configuracion.mensajeArg}=${datos.mensaje}`
+    fetch(urlSms)
+      .then((resp: any) => {
+        console.log(resp.text());
+      })
   }
 
 }

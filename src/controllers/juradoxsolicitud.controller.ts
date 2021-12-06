@@ -108,18 +108,32 @@ export class JuradoxsolicitudController {
     })
     respuesta: Modelorespuesta,
   ): Promise<boolean | string | object> {
+
     let carga = await this.respService.recibirRespuesta(respuesta);
+    let adminCorreo = await this.notiService.notificarAdmin();
     if (carga) {
       if (carga.respuesta == "ACEPTO") {
+        //await this.notiService.notificarAdmin().then((resp: any) => {console.log('que viene', resp);});
+        console.log('admin correos', adminCorreo);
+        adminCorreo.map(correo => {
+          console.log("map", `1+${correo.correo}`);
+          let datos = new Modelocorreo();
+          datos.destino = correo.correo;
+          datos.asunto = Configuracion.asuntoNoti;
+          datos.mensaje = `${Configuracion.saludo}<br>
+                           ${Configuracion.mensajeNoti}
+                           ${correo.correo}
+                           ${Configuracion.mensajeNoti2}`
+          this.notiService.enviarCorreo(datos);
+        })
         //notificarle a los administradores
         //crear usuarioJurado
-
         let buscarJurado = await this.juradoRepository.findOne({
           where: {
             id: carga.id_jurado
           }
         })
-        console.log('carga', carga);
+        //console.log('carga', carga);
         if (buscarJurado) {
           if (buscarJurado.clave) {
             // notificar que ya tiene el material disponible
@@ -127,9 +141,10 @@ export class JuradoxsolicitudController {
             datos.destino = buscarJurado.correo;
             datos.asunto = Configuracion.asuntoUsuarioJurado;
             datos.mensaje = `${Configuracion.saludo}
-                       ${buscarJurado.nombre}<br>
-                       ${Configuracion.mensajeUsuarioJuradoOld}`
+                            ${buscarJurado.nombre}<br>
+                            ${Configuracion.mensajeUsuarioJuradoOld}`
             this.notiService.enviarCorreo(datos);
+
             return {
               ok: false,
               buscarJurado
@@ -147,9 +162,9 @@ export class JuradoxsolicitudController {
             datos.asunto = Configuracion.asuntoUsuarioJurado;
             datos.mensaje = `${Configuracion.saludo}
                        ${buscarJurado.nombre} <br>
-              ${Configuracion.mensajeUsuarioJurado}
+                       ${Configuracion.mensajeUsuarioJurado}
                        ${Configuracion.mensajeUsuarioJuradoCreadoClave}
-                       ${clave} `
+                       ${clave}`
             this.notiService.enviarCorreo(datos);
             console.log('despues', buscarJurado);
             //console.log('toca crear contraseña');
