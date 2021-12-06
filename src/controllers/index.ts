@@ -41,3 +41,5 @@ export * from './resultadosolicitud.controller';
 export * from './juradoxareainvestigacion.controller';
 export * from './jurado.controller';
 export * from './correo.controller';
+export * from './carga-archivos.controller';
+export * from './descargar-archivos.controller';
