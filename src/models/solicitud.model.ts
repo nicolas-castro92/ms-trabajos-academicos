@@ -60,6 +60,12 @@ export class Solicitud extends Entity {
   })
   descripcion: string;
 
+  @property({
+    type: 'string',
+    required: true,
+  })
+  trabajo: string;
+
   @hasMany(() => Proponentexsolicitud, {keyTo: 'id_proponente'})
   proponentexsolicituds: Proponentexsolicitud[];
 
