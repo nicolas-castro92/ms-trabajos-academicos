@@ -1,4 +1,4 @@
-import {AuthenticationComponent} from '@loopback/authentication';
+import {AuthenticationComponent, registerAuthenticationStrategy} from '@loopback/authentication';
 import {BootMixin} from '@loopback/boot';
 import {ApplicationConfig} from '@loopback/core';
 import {RepositoryMixin} from '@loopback/repository';
@@ -10,6 +10,9 @@ import {
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {MySequence} from './sequence';
+import {EstrategiaAdministrador} from './strategies/estrategia-administrador';
+import {EstrategiaJurado} from './strategies/estrategia-jurado';
+import {EstrategiaSecretaria} from './strategies/estrategia-secretaria';
 
 export {ApplicationConfig};
 
@@ -42,6 +45,9 @@ export class TrabajoacademicoApp extends BootMixin(
       },
     };
 
+    registerAuthenticationStrategy(this, EstrategiaAdministrador)
+    registerAuthenticationStrategy(this, EstrategiaSecretaria)
+    registerAuthenticationStrategy(this, EstrategiaJurado)
     this.component(AuthenticationComponent);
   }
 }

@@ -1,30 +1,26 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
-  put,
-  del,
-  requestBody,
-  response,
+  del, get,
+  getModelSchemaRef, param, patch, post, put, requestBody,
+  response
 } from '@loopback/rest';
 import {Estado} from '../models';
 import {EstadoRepository} from '../repositories';
 
+@authenticate("jurado", "administrador")
 export class EstadoController {
   constructor(
     @repository(EstadoRepository)
-    public estadoRepository : EstadoRepository,
-  ) {}
+    public estadoRepository: EstadoRepository,
+  ) { }
 
   @post('/estados')
   @response(200, {

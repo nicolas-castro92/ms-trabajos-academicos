@@ -8,6 +8,7 @@ export namespace Configuracion {
   export const urlCorreosSecre = "http://localhost:3007/rols"
   export const urlCrearToken = "http://localhost:5001/crear-token";
   export const urlValidarSession = "http://localhost:5001/validar-session"
+  export const urlValidarToken = "http://localhost:5001/validar-token";
 
   //cambiarClave
   export const asuntoClave = "Cambio de contraseña"
@@ -53,11 +54,14 @@ export namespace Configuracion {
   export const idUserArg = "id_usuario";
   export const idRolArg = "id_rol"
   export const tokenArg = "token"
+  export const rolArg = "rol"
 
 
 
-
-
+  //roles
+  export const rolAdministrador = 2;
+  export const rolSecretaria = 3;
+  export const rolJurado = "jurado";
 
 
   //export const carpetaImagenVehiculo = '../../archivos/vehiculos';
