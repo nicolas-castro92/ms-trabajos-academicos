@@ -1,8 +1,12 @@
-import {Entity, hasMany, hasOne, model, property} from '@loopback/repository';
+import {belongsTo, Entity, hasMany, hasOne, model, property} from '@loopback/repository';
+import {Areainvestigacion} from './areainvestigacion.model';
 import {Comitexsolicitud} from './comitexsolicitud.model';
+import {Estado} from './estado.model';
 import {Juradoxsolicitud} from './juradoxsolicitud.model';
+import {Modalidad} from './modalidad.model';
 import {Proponentexsolicitud} from './proponentexsolicitud.model';
 import {Recordatorio} from './recordatorio.model';
+import {Tiposolicitud} from './tiposolicitud.model';
 
 @model({
   settings: {
@@ -68,35 +72,25 @@ export class Solicitud extends Entity {
 
   @hasMany(() => Proponentexsolicitud, {keyTo: 'id_proponente'})
   proponentexsolicituds: Proponentexsolicitud[];
-
-  @property({
-    type: 'number',
-  })
-  id_tiposolicitud?: number;
-
-  @property({
-    type: 'number',
-  })
-  id_modalidad?: number;
-
-  @property({
-    type: 'number',
-  })
-  id_estado?: number;
-
   @hasOne(() => Recordatorio, {keyTo: 'id_solicitud'})
   recordatorio: Recordatorio;
 
   @hasMany(() => Comitexsolicitud, {keyTo: 'id_solicitud'})
   comitexsolicituds: Comitexsolicitud[];
-
-  @property({
-    type: 'number',
-  })
-  id_areainvestigacion?: number;
-
   @hasMany(() => Juradoxsolicitud, {keyTo: 'id_solicitud'})
   juradoxsolicituds: Juradoxsolicitud[];
+
+  @belongsTo(() => Tiposolicitud, {name: 'idtiposolicitud'})
+  id_tiposolicitud: number;
+
+  @belongsTo(() => Modalidad, {name: 'idmodalidad'})
+  id_modalidad: number;
+
+  @belongsTo(() => Areainvestigacion, {name: 'idareainvestigacion'})
+  id_areainvestigacion: number;
+
+  @belongsTo(() => Estado, {name: 'idestado'})
+  id_estado: number;
 
   constructor(data?: Partial<Solicitud>) {
     super(data);
