@@ -48,4 +48,7 @@ export * from './tiposolicitud-solicitud.controller';
 export * from './tiposolicitud.controller';
 export * from './tipovinculacion-proponente.controller';
 export * from './tipovinculacion.controller';
-
+export * from './departamento-facultad.controller';
+export * from './juradoxsolicitud-jurado.controller';
+export * from './juradoxsolicitud-solicitud.controller';
+export * from './juradoxsolicitud-estado.controller';

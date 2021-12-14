@@ -1,5 +1,8 @@
-import {Entity, hasOne, model, property} from '@loopback/repository';
+import {Entity, hasOne, model, property, belongsTo} from '@loopback/repository';
 import {Resultadosolicitud} from './resultadosolicitud.model';
+import {Jurado} from './jurado.model';
+import {Solicitud} from './solicitud.model';
+import {Estado} from './estado.model';
 
 @model({
   settings: {
@@ -53,26 +56,16 @@ export class Juradoxsolicitud extends Entity {
     type: 'string',
   })
   observaciones?: string;
-
-  @property({
-    type: 'number',
-    required: true,
-  })
-  id_jurado: number;
-
-  @property({
-    type: 'number',
-    required: true,
-  })
-  id_solicitud: number;
-
   @hasOne(() => Resultadosolicitud, {keyTo: 'id_juradoxsolicitud'})
   resultadosolicitud: Resultadosolicitud;
+  @belongsTo(() => Jurado, {name: 'idjurado'})
+  id_jurado: number;
 
-  @property({
-    type: 'number',
-  })
-  id_estado?: number;
+  @belongsTo(() => Solicitud, {name: 'idsolicitud'})
+  id_solicitud: number;
+
+  @belongsTo(() => Estado, {name: 'idestado'})
+  id_estado: number;
 
   constructor(data?: Partial<Juradoxsolicitud>) {
     super(data);

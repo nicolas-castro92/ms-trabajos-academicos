@@ -114,6 +114,7 @@ export class JuradoxsolicitudController {
     if (carga) {
       if (carga.respuesta == "ACEPTO") {
         //await this.notiService.notificarAdmin().then((resp: any) => {console.log('que viene', resp);});
+
         console.log('admin correos', adminCorreo);
         adminCorreo.map(correo => {
           console.log("map", `1+${correo.correo}`);
@@ -130,7 +131,7 @@ export class JuradoxsolicitudController {
         //crear usuarioJurado
         let buscarJurado = await this.juradoRepository.findOne({
           where: {
-            id: carga.id_jurado
+            id: carga.id_jurado,
           }
         })
         //console.log('carga', carga);
