@@ -21,7 +21,7 @@ export class Modelorespuesta extends Model {
   codigo_solicitud: number;
 
   @property({
-    type: 'date',
+    type: 'string',
   })
   fecha_respuesta?: string;
 

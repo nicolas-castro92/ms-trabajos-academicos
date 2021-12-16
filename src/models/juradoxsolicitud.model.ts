@@ -1,8 +1,8 @@
-import {Entity, hasOne, model, property, belongsTo} from '@loopback/repository';
-import {Resultadosolicitud} from './resultadosolicitud.model';
-import {Jurado} from './jurado.model';
-import {Solicitud} from './solicitud.model';
+import {belongsTo, Entity, hasOne, model, property} from '@loopback/repository';
 import {Estado} from './estado.model';
+import {Jurado} from './jurado.model';
+import {Resultadosolicitud} from './resultadosolicitud.model';
+import {Solicitud} from './solicitud.model';
 
 @model({
   settings: {
@@ -38,12 +38,12 @@ export class Juradoxsolicitud extends Entity {
   id?: number;
 
   @property({
-    type: 'date',
+    type: 'string',
   })
   fecha_invitacion?: string;
 
   @property({
-    type: 'date',
+    type: 'string',
   })
   fecha_respuesta?: string;
 

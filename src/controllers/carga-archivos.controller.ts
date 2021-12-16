@@ -97,7 +97,7 @@ export class CargaArchivosController {
    * @param response
    * @param request
    */
-  @post('/CargarDocumentoPersona', {
+  @post('/cargardocumentopersona', {
     responses: {
       200: {
         content: {
